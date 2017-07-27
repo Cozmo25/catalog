@@ -221,9 +221,8 @@ def showStores():
 
 # Create a new store
 @app.route('/store/new/', methods=['GET', 'POST'])
+@login_required
 def newStore():
-    if 'username' not in login_session:
-        return redirect('/login')
     if request.method == 'POST':
         newStore = Store(
             name=request.form['name'], user_id=login_session['user_id'])
@@ -237,15 +236,13 @@ def newStore():
 
 # Edit a store
 @app.route('/store/<int:store_id>/edit/', methods=['GET', 'POST'])
+@login_required
 def editStore(store_id):
     editedStore = session.query(
         Store).filter_by(id=store_id).one()
-    if 'username' not in login_session:
-        return redirect('/login')
     if editedStore.user_id != login_session['user_id']:
-        return '''<script>function myFunction() {alert('You are not authorized
-         to edit this store. Please create your own store in order to edit.');}
-         </script><body onload='myFunction()''>'''
+        flash('You are not authorized to edit %s '
+              'Please create your own to edit' % editStore.name)
     if request.method == 'POST':
         if request.form['name']:
             editedStore.name = request.form['name']
@@ -257,15 +254,13 @@ def editStore(store_id):
 
 # Delete a store
 @app.route('/store/<int:store_id>/delete/', methods=['GET', 'POST'])
+@login_required
 def deleteStore(store_id):
     storeToDelete = session.query(
         Store).filter_by(id=store_id).one()
-    if 'username' not in login_session:
-        return redirect('/login')
     if storeToDelete.user_id != login_session['user_id']:
-        return '''<script>function myFunction() {alert('You are not authorized
-         to delete this store. Please create your own store in order to delete.
-         ');}</script><body onload='myFunction()''>'''
+        flash('You are not authorized to edit %s '
+              'Please create your own to edit' % editStore.name)
     if request.method == 'POST':
         session.delete(storeToDelete)
         flash('%s Successfully Deleted' % storeToDelete.name)
@@ -294,14 +289,12 @@ def showProduct(store_id):
 
 # Create a new product item
 @app.route('/store/<int:store_id>/product/new/', methods=['GET', 'POST'])
+@login_required
 def newProduct(store_id):
-    if 'username' not in login_session:
-        return redirect('/login')
     store = session.query(Store).filter_by(id=store_id).one()
     if login_session['user_id'] != store.user_id:
-        return '''<script>function myFunction() {alert('You are not authorized
-         to add product items to this store. Please create your own store in
-          order to add items.');}</script><body onload='myFunction()''>'''
+        flash('You are not authorized to edit %s '
+              'Please create your own to edit' % editStore.name)
     if request.method == 'POST':
             newItem = Product(name=request.form['name'],
                               description=request.form['description'],
@@ -320,15 +313,13 @@ def newProduct(store_id):
 # Edit a product item
 @app.route('/store/<int:store_id>/product/<int:product_id>/edit',
            methods=['GET', 'POST'])
+@login_required
 def editProduct(store_id, product_id):
-    if 'username' not in login_session:
-        return redirect('/login')
     editedItem = session.query(Product).filter_by(id=product_id).one()
     store = session.query(Store).filter_by(id=store_id).one()
     if login_session['user_id'] != store.user_id:
-        return '''<script>function myFunction() {alert('You are not authorized
-         to edit product items to this store. Please create your own store in
-          order to edit items.');}</script><body onload='myFunction()''>'''
+        flash('You are not authorized to edit %s '
+              'Please create your own to edit' % editStore.name)
     if request.method == 'POST':
         if request.form['name']:
             editedItem.name = request.form['name']
@@ -352,15 +343,13 @@ def editProduct(store_id, product_id):
 # Delete a product item
 @app.route('/store/<int:store_id>/product/<int:product_id>/delete',
            methods=['GET', 'POST'])
+@login_required
 def deleteProduct(store_id, product_id):
-    if 'username' not in login_session:
-        return redirect('/login')
     store = session.query(Store).filter_by(id=store_id).one()
     itemToDelete = session.query(Product).filter_by(id=product_id).one()
     if login_session['user_id'] != store.user_id:
-        return '''<script>function myFunction() {alert('You are not authorized
-         to delete product items to this store. Please create your own store in
-          order to delete items.');}</script><body onload='myFunction()''>'''
+        flash('You are not authorized to edit %s '
+              'Please create your own to edit' % editStore.name)
     if request.method == 'POST':
         session.delete(itemToDelete)
         session.commit()
