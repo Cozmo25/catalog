@@ -38,6 +38,14 @@ The site uses Google authentication to login users.
 
 Users may only amend Store / Product data that they created.
 
+### JSON Endpoints
+
+The following JSON endpoints are available for access to data from the app:
+
+* All Stores Information: http://localhost:8000/stores/JSON
+* Product Information for a Single Store: http://localhost:8000/stores/<Store_ID>/JSON
+* Single Product of a Store Information: http://localhost:8000/stores/<Store_ID>/product/<Product_ID>/JSON
+
 
 Thanks to the following sources for assistance with various elements of the project:
 * [Udacity Full Stack Developer Course Notes](https://www.udacity.com/course/full-stack-web-developer-nanodegree--nd004)
