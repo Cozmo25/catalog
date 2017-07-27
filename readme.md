@@ -42,9 +42,9 @@ Users may only amend Store / Product data that they created.
 
 The following JSON endpoints are available for access to data from the app:
 
-* All Stores Information: http://localhost:8000/stores/JSON
-* Product Information for a Single Store: http://localhost:8000/stores/<Store_ID>/JSON
-* Single Product of a Store Information: http://localhost:8000/stores/<Store_ID>/product/<Product_ID>/JSON
+* All Stores Information: http://localhost:8000/store/JSON
+* Product Information for a Single Store: http://localhost:8000/store/<Store_ID>/JSON
+* Single Product of a Store Information: http://localhost:8000/store/<Store_ID>/product/<Product_ID>/JSON
 
 
 Thanks to the following sources for assistance with various elements of the project:
