@@ -6,6 +6,7 @@ from sqlalchemy import create_engine
 Base = declarative_base()
 
 
+# Define User class & table
 class User(Base):
     __tablename__ = 'user'
 
@@ -15,6 +16,7 @@ class User(Base):
     picture = Column(String(250))
 
 
+# Define Store class & table
 class Store(Base):
     __tablename__ = 'store'
 
@@ -32,6 +34,7 @@ class Store(Base):
         }
 
 
+# Define Product class & table
 class Product(Base):
     __tablename__ = 'product'
 

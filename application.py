@@ -195,9 +195,8 @@ def storesJSON():
     stores = session.query(Store).all()
     return jsonify(stores=[r.serialize for r in stores])
 
+
 # ROUTES
-
-
 # Show all stores
 @app.route('/')
 @app.route('/store/')
