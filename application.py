@@ -3,6 +3,7 @@ from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Store, Product, User
 from flask import session as login_session
+from functools import wraps
 import random
 import string
 from oauth2client.client import flow_from_clientsecrets
@@ -11,6 +12,7 @@ import httplib2
 import json
 from flask import make_response, flash
 import requests
+
 
 # Set environment variables
 app = Flask(__name__)
@@ -26,6 +28,15 @@ Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
+
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'username' not in login_session:
+            return redirect('login')
+        return f(*args, **kwargs)
+    return decorated_function
 
 
 # Create anti-forgery state token
